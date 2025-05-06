@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Chatbot</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 0; background: #f5f5f5; }
+        .chatbox { width: 400px; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .chatlogs { height: 300px; overflow-y: scroll; border-bottom: 1px solid #ccc; padding: 10px; }
+        .chat { margin: 10px 0; }
+        .user, .bot { padding: 10px; border-radius: 5px; }
+        .user { background: #d1e7dd; text-align: right; }
+        .bot { background: #f8d7da; text-align: left; }
+        input { width: calc(100% - 60px); padding: 10px; }
+        button { padding: 10px; }
+    </style>
+</head>
+<body>
+    <div class="chatbox">
+        <h2>Restaurant Chatbot</h2>
+        <div class="chatlogs" id="chatlogs"></div>
+        <form id="chat-form">
+            <input type="text" id="user-input" placeholder="Ask something..." required />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("chat-form");
+        const input = document.getElementById("user-input");
+        const chatlogs = document.getElementById("chatlogs");
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const msg = input.value;
+            chatlogs.innerHTML += `<div class="chat user">${msg}</div>`;
+            input.value = "";
+
+            const res = await fetch("/get", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `msg=${encodeURIComponent(msg)}`
+            });
+
+            const data = await res.json();
+            chatlogs.innerHTML += `<div class="chat bot">${data.reply}</div>`;
+            chatlogs.scrollTop = chatlogs.scrollHeight;
+        };
+    </script>
+</body>
+</html>
+
+
+
+
