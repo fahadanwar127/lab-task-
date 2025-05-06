@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Joke App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            padding-top: 100px;
+            background-color: #f7f7f7;
+        }
+        #joke-box {
+            background-color: white;
+            padding: 30px;
+            margin: auto;
+            width: 60%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #joke {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="joke-box">
+        <h2>Click the Button for a Random Joke</h2>
+        <p id="joke">No joke yet. Click the button!</p>
+        <button onclick="fetchJoke()">Get Joke</button>
+    </div>
+
+    <script>
+        async function fetchJoke() {
+            const res = await fetch('/get_joke');
+            const data = await res.json();
+            document.getElementById('joke').innerText = data.joke;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
